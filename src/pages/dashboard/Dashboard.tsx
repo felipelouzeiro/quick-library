@@ -6,25 +6,55 @@ import {
   TableRow,
   TableCell,
   TableBody,
-  useTheme,
+  Button,
 } from '@mui/material';
-import { useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { BarraDePesquisa } from '../../shared/components/BarraDeBusca';
 import { BarraDeFiltragem } from '../../shared/components/BarraDeFiltragem';
 import { LayoutBase } from '../../shared/layouts/LayoutBase';
+import {
+  IListagemLivros,
+  LivrosService,
+} from '../../shared/services/api/LivrosService';
 
 export const Dashboard = () => {
-  const [busca, setBusca] = useState('');
+  const [rows, setRows] = useState<IListagemLivros[]>([]);
+  const [totalCount, setTotalCount] = useState(0);
+
+  const [searchParams, setSearchParams] = useSearchParams();
+
   const [anoInicial, setAnoInicial] = useState('');
   const [anoFinal, setAnoFinal] = useState('');
 
-  const theme = useTheme();
+  const busca = useMemo(() => {
+    return searchParams.get('busca') || '';
+  }, [searchParams]);
+
+  const pagina = useMemo(() => {
+    return Number(searchParams.get('pagina') || '1');
+  }, [searchParams]);
+
+  useEffect(() => {
+    LivrosService.getAll(pagina, busca).then((result) => {
+      if (result instanceof Error) {
+        alert(result.message);
+      } else {
+        console.log(result);
+
+        setRows(result.data);
+        setTotalCount(result.totalCount);
+      }
+    });
+  }, [busca, pagina]);
 
   return (
     <LayoutBase
       barraDePesquisa={
         <BarraDePesquisa
-          aoMudarTextoDaBusca={(texto) => setBusca(texto)}
+          aoMudarTextoDaBusca={(texto) =>
+            setSearchParams({ busca: texto, pagina: '1' }, { replace: true })
+          }
           aoClicarEmPesquisar={() => console.log(busca)}
           textoDaBUsca={busca}
         />
@@ -55,13 +85,24 @@ export const Dashboard = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            <TableRow>
-              <TableCell>Narnia</TableCell>
-              <TableCell>Autor legal</TableCell>
-              <TableCell>Inglês</TableCell>
-              <TableCell>2000</TableCell>
-              <TableCell>Detalhe</TableCell>
-            </TableRow>
+            {rows.map((row) => (
+              <TableRow key={row.title}>
+                <TableCell>{row.title}</TableCell>
+                <TableCell>{row.author}l</TableCell>
+                <TableCell>{row.language}</TableCell>
+                <TableCell>{row.year}</TableCell>
+                <TableCell>
+                  {
+                    <Button
+                      variant="text"
+                      onClick={() => console.log(row.title)}
+                    >
+                      Detalhes
+                    </Button>
+                  }
+                </TableCell>
+              </TableRow>
+            ))}
           </TableBody>
         </Table>
       </TableContainer>
