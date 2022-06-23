@@ -38,8 +38,16 @@ export const Dashboard = () => {
     return Number(searchParams.get('pagina') || '1');
   }, [searchParams]);
 
+  const from = useMemo(() => {
+    return Number(searchParams.get('start')).toString() || '';
+  }, [searchParams]);
+
+  const to = useMemo(() => {
+    return Number(searchParams.get('final')).toString() || '';
+  }, [searchParams]);
+
   useEffect(() => {
-    LivrosService.getAll(pagina, busca).then((result) => {
+    LivrosService.getAll(pagina, busca, from, to).then((result) => {
       if (result instanceof Error) {
         alert(result.message);
       } else {
@@ -49,7 +57,18 @@ export const Dashboard = () => {
         setTotalCount(result.totalCount);
       }
     });
-  }, [busca, pagina]);
+  }, [busca, pagina, from, to]);
+
+  const filtrarPorAno = (dataInicial: string, dataFinal: string) => {
+    if (dataInicial && dataFinal) {
+      if (dataInicial < dataFinal) {
+        setSearchParams(
+          { from: dataInicial, to: dataFinal, pagina: '1' },
+          { replace: true }
+        );
+      }
+    }
+  };
 
   return (
     <LayoutBase
@@ -68,7 +87,7 @@ export const Dashboard = () => {
           anoFinalDaBusca={anoFinal}
           aoMudarAnoInicialDaBusca={(ano) => setAnoInicial(ano)}
           aoMudarAnoFinalDaBusca={(ano) => setAnoFinal(ano)}
-          aoClicarEmFiltrar={() => console.log(anoInicial, anoFinal)}
+          aoClicarEmFiltrar={() => filtrarPorAno(anoInicial, anoFinal)}
         />
       }
     >

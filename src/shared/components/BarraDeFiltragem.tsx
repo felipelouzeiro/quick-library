@@ -2,8 +2,7 @@ import {
   Box,
   Button,
   Icon,
-  MenuItem,
-  Select,
+  TextField,
   Typography,
   useTheme,
 } from '@mui/material';
@@ -51,16 +50,12 @@ export const BarraDeFiltragem: React.FC<IBarraDeFiltragemProps> = ({
         alignContent="center"
         sx={{ margin: 1, minWidth: 120, gap: theme.spacing(1) }}
       >
-        <Select
+        <TextField
           size="small"
           value={anoInicialDaBusca}
           fullWidth
           onChange={(e) => aoMudarAnoInicialDaBusca?.(e.target.value)}
-        >
-          <MenuItem value={2022}>2022</MenuItem>
-          <MenuItem value={2021}>2021</MenuItem>
-          <MenuItem value={2020}>2020</MenuItem>
-        </Select>
+        ></TextField>
         <Icon>calendar_month</Icon>
       </Box>
 
@@ -80,16 +75,12 @@ export const BarraDeFiltragem: React.FC<IBarraDeFiltragemProps> = ({
         alignContent="center"
         sx={{ margin: 1, minWidth: 120, gap: theme.spacing(1) }}
       >
-        <Select
+        <TextField
           size="small"
           fullWidth
           value={anoFinalDaBusca}
           onChange={(e) => aoMudarAnoFinalDaBusca?.(e.target.value)}
-        >
-          <MenuItem value={2022}>2022</MenuItem>
-          <MenuItem value={2021}>2021</MenuItem>
-          <MenuItem value={2020}>2020</MenuItem>
-        </Select>
+        ></TextField>
         <Icon>calendar_month</Icon>
       </Box>
 

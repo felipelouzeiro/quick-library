@@ -16,13 +16,14 @@ type ILivrosComTotalCount = {
   data: IListagemLivros[];
   totalCount: number;
 };
-
 const getAll = async (
   page = 1,
-  filter = ''
+  filter = '',
+  from = '',
+  to = ''
 ): Promise<ILivrosComTotalCount | Error> => {
   try {
-    const urlRelativa = `/books?_page=${page}&_limit=${Environment.LIMITE_DE_LINHAS}&title_like=${filter}`;
+    const urlRelativa = `/books?_page=${page}&_limit=${Environment.LIMITE_DE_LINHAS}&title_like=${filter}&year_gte${from}&year_lte${to}`;
 
     const { data, headers } = await Api.get(urlRelativa);
 
