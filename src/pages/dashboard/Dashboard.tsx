@@ -14,6 +14,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { BarraDePesquisa } from '../../shared/components/BarraDeBusca';
 import { BarraDeFiltragem } from '../../shared/components/BarraDeFiltragem';
+import { DetalhesDoLivro } from '../../shared/components/DetalhesDoLivro';
 import { Environment } from '../../shared/environments';
 import { LayoutBase } from '../../shared/layouts/LayoutBase';
 import {
@@ -24,6 +25,9 @@ import {
 export const Dashboard = () => {
   const [rows, setRows] = useState<IListagemLivros[]>([]);
   const [totalCount, setTotalCount] = useState(0);
+
+  const [livroSelecionado, setLivroSelecionado] =
+    useState<IListagemLivros | null>(null);
 
   const [searchParams, setSearchParams] = useSearchParams();
 
@@ -120,7 +124,7 @@ export const Dashboard = () => {
                   {
                     <Button
                       variant="text"
-                      onClick={() => console.log(row.title)}
+                      onClick={() => setLivroSelecionado(row)}
                     >
                       Detalhes
                     </Button>
@@ -147,6 +151,12 @@ export const Dashboard = () => {
           </TableFooter>
         </Table>
       </TableContainer>
+      {livroSelecionado && (
+        <DetalhesDoLivro
+          livro={livroSelecionado}
+          setLivro={() => setLivroSelecionado(null)}
+        />
+      )}
     </LayoutBase>
   );
 };
