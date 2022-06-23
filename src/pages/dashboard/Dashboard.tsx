@@ -88,7 +88,9 @@ export const Dashboard = () => {
             {rows.map((row) => (
               <TableRow key={row.title}>
                 <TableCell>{row.title}</TableCell>
-                <TableCell>{row.author}l</TableCell>
+                <TableCell>
+                  {row.author === 'Unknown' ? 'Desconhecido' : row.author}
+                </TableCell>
                 <TableCell>{row.language}</TableCell>
                 <TableCell>{row.year}</TableCell>
                 <TableCell>
