@@ -88,6 +88,7 @@ export const Dashboard = () => {
           aoMudarAnoInicialDaBusca={(ano) => setAnoInicial(ano)}
           aoMudarAnoFinalDaBusca={(ano) => setAnoFinal(ano)}
           aoClicarEmFiltrar={() => filtrarPorAno(anoInicial, anoFinal)}
+          totalResultados={totalCount}
         />
       }
     >

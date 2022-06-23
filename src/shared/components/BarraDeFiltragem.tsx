@@ -13,6 +13,7 @@ interface IBarraDeFiltragemProps {
   aoMudarAnoInicialDaBusca?: (novoTexto: string) => void;
   aoMudarAnoFinalDaBusca?: (novoTexto: string) => void;
   aoClicarEmFiltrar: () => void;
+  totalResultados: number;
 }
 
 export const BarraDeFiltragem: React.FC<IBarraDeFiltragemProps> = ({
@@ -21,6 +22,7 @@ export const BarraDeFiltragem: React.FC<IBarraDeFiltragemProps> = ({
   aoMudarAnoInicialDaBusca,
   aoMudarAnoFinalDaBusca,
   aoClicarEmFiltrar,
+  totalResultados = 0,
 }) => {
   const theme = useTheme();
 
@@ -101,7 +103,7 @@ export const BarraDeFiltragem: React.FC<IBarraDeFiltragemProps> = ({
           overflow="hidden"
           textOverflow="ellipsis"
         >
-          100 Resultados encontrados
+          {totalResultados} Resultados encontrados
         </Typography>
       </Box>
     </Box>
