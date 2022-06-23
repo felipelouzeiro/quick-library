@@ -24,6 +24,7 @@ export const BarraDePesquisa: React.FC<IBarraDePesquisaProps> = ({
   const theme = useTheme();
   const smDown = useMediaQuery(theme.breakpoints.down('sm'));
   const mdDown = useMediaQuery(theme.breakpoints.down('md'));
+  const smUp = useMediaQuery(theme.breakpoints.up('sm'));
 
   return (
     <Box
@@ -56,17 +57,19 @@ export const BarraDePesquisa: React.FC<IBarraDePesquisaProps> = ({
         onChange={(e) => aoMudarTextoDaBusca?.(e.target.value)}
       />
 
-      <Box flex={1} display="flex" justifyContent="end">
-        <Button
-          variant="outlined"
-          disableElevation
-          color="primary"
-          onClick={aoClicarEmPesquisar}
-          endIcon={<Icon>search</Icon>}
-        >
-          Buscar
-        </Button>
-      </Box>
+      {smUp && (
+        <Box flex={1} display="flex" justifyContent="end">
+          <Button
+            variant="outlined"
+            disableElevation
+            color="primary"
+            onClick={aoClicarEmPesquisar}
+            endIcon={<Icon>search</Icon>}
+          >
+            Buscar
+          </Button>
+        </Box>
+      )}
     </Box>
   );
 };

@@ -4,6 +4,7 @@ import {
   Icon,
   TextField,
   Typography,
+  useMediaQuery,
   useTheme,
 } from '@mui/material';
 
@@ -26,6 +27,8 @@ export const BarraDeFiltragem: React.FC<IBarraDeFiltragemProps> = ({
 }) => {
   const theme = useTheme();
 
+  const smUp = useMediaQuery(theme.breakpoints.up('sm'));
+
   return (
     <Box
       gap={1}
@@ -36,66 +39,76 @@ export const BarraDeFiltragem: React.FC<IBarraDeFiltragemProps> = ({
       alignItems={'center'}
       height={theme.spacing(5)}
     >
-      <Box display="flex" justifyContent="start">
-        <Typography
-          whiteSpace="nowrap"
-          overflow="hidden"
-          textOverflow="ellipsis"
+      {smUp && (
+        <Box display="flex" justifyContent="start">
+          <Typography
+            whiteSpace="nowrap"
+            overflow="hidden"
+            textOverflow="ellipsis"
+          >
+            Filtrar ano da publicação:
+          </Typography>
+        </Box>
+      )}
+
+      {smUp && (
+        <Box
+          display="flex"
+          alignItems="center"
+          alignContent="center"
+          sx={{ margin: 1, minWidth: 120, gap: theme.spacing(1) }}
         >
-          Filtrar ano da publicação:
-        </Typography>
-      </Box>
+          <TextField
+            size="small"
+            value={anoInicialDaBusca}
+            fullWidth
+            onChange={(e) => aoMudarAnoInicialDaBusca?.(e.target.value)}
+          ></TextField>
+          <Icon>calendar_month</Icon>
+        </Box>
+      )}
 
-      <Box
-        display="flex"
-        alignItems="center"
-        alignContent="center"
-        sx={{ margin: 1, minWidth: 120, gap: theme.spacing(1) }}
-      >
-        <TextField
-          size="small"
-          value={anoInicialDaBusca}
-          fullWidth
-          onChange={(e) => aoMudarAnoInicialDaBusca?.(e.target.value)}
-        ></TextField>
-        <Icon>calendar_month</Icon>
-      </Box>
+      {smUp && (
+        <Box display="flex" justifyContent="start">
+          <Typography
+            whiteSpace="nowrap"
+            overflow="hidden"
+            textOverflow="ellipsis"
+          >
+            Até
+          </Typography>
+        </Box>
+      )}
 
-      <Box display="flex" justifyContent="start">
-        <Typography
-          whiteSpace="nowrap"
-          overflow="hidden"
-          textOverflow="ellipsis"
+      {smUp && (
+        <Box
+          display="flex"
+          alignItems="center"
+          alignContent="center"
+          sx={{ margin: 1, minWidth: 120, gap: theme.spacing(1) }}
         >
-          Até
-        </Typography>
-      </Box>
+          <TextField
+            size="small"
+            fullWidth
+            value={anoFinalDaBusca}
+            onChange={(e) => aoMudarAnoFinalDaBusca?.(e.target.value)}
+          ></TextField>
+          <Icon>calendar_month</Icon>
+        </Box>
+      )}
 
-      <Box
-        display="flex"
-        alignItems="center"
-        alignContent="center"
-        sx={{ margin: 1, minWidth: 120, gap: theme.spacing(1) }}
-      >
-        <TextField
-          size="small"
-          fullWidth
-          value={anoFinalDaBusca}
-          onChange={(e) => aoMudarAnoFinalDaBusca?.(e.target.value)}
-        ></TextField>
-        <Icon>calendar_month</Icon>
-      </Box>
-
-      <Box>
-        <Button
-          variant="text"
-          disableElevation
-          color="primary"
-          onClick={aoClicarEmFiltrar}
-        >
-          Filtrar
-        </Button>
-      </Box>
+      {smUp && (
+        <Box>
+          <Button
+            variant="text"
+            disableElevation
+            color="primary"
+            onClick={aoClicarEmFiltrar}
+          >
+            Filtrar
+          </Button>
+        </Box>
+      )}
 
       <Box flex={1} display="flex" justifyContent="end">
         <Typography
