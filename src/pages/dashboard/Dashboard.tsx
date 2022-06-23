@@ -7,11 +7,14 @@ import {
   TableCell,
   TableBody,
   Button,
+  TableFooter,
+  Pagination,
 } from '@mui/material';
 import { useEffect, useMemo, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { BarraDePesquisa } from '../../shared/components/BarraDeBusca';
 import { BarraDeFiltragem } from '../../shared/components/BarraDeFiltragem';
+import { Environment } from '../../shared/environments';
 import { LayoutBase } from '../../shared/layouts/LayoutBase';
 import {
   IListagemLivros,
@@ -106,6 +109,22 @@ export const Dashboard = () => {
               </TableRow>
             ))}
           </TableBody>
+          {totalCount === 0 && <caption>{Environment.LISTAGEM_VAZIA}</caption>}
+          <TableFooter>
+            {totalCount > 0 && totalCount > Environment.LIMITE_DE_LINHAS && (
+              <TableRow>
+                <TableCell colSpan={3}>
+                  <Pagination
+                    page={pagina}
+                    count={Math.ceil(totalCount / Environment.LIMITE_DE_LINHAS)}
+                    onChange={(e, newPage) =>
+                      setSearchParams({ busca, pagina: newPage.toString() })
+                    }
+                  />
+                </TableCell>
+              </TableRow>
+            )}
+          </TableFooter>
         </Table>
       </TableContainer>
     </LayoutBase>
